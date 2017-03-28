@@ -48,3 +48,6 @@ fabric.properties
 # Maven
 log/
 target/
+
+# Custom
+users.json

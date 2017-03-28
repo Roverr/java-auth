@@ -1,10 +1,12 @@
 package com.authcore;
 
 
+import com.authcore.context.Context;
 import com.authcore.router.Router;
 
 public class Main {
     public static void main(String[] args) {
-        Router router = new Router();
+        Context.getInstance();
+        new Router();
     }
 }
