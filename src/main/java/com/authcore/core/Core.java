@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
  * Created by imreleventeracz on 27/03/17.
  */
 abstract public class Core {
+    protected abstract Boolean isBodyValid(JsonObject body);
     protected JsonObject parseBody(HttpExchange t) throws IOException {
         InputStreamReader isr =  new InputStreamReader(t.getRequestBody(),"utf-8");
         BufferedReader br = new BufferedReader(isr);

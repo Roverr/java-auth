@@ -24,7 +24,7 @@ import com.authcore.user.User;
  */
 public class Login extends Core implements Handler{
 
-    private Boolean isBodyValid(JsonObject body) {
+    protected Boolean isBodyValid(JsonObject body) {
         Boolean isEmailMissing = body.getString("email", "").equalsIgnoreCase("");
         Boolean isPasswordMissing = body.getString("password", "").equalsIgnoreCase("");
         if (isEmailMissing || isPasswordMissing) {

@@ -18,7 +18,7 @@ import javax.json.*;
  */
 public class Registration extends Core implements Handler {
 
-    private Boolean isBodyValid(JsonObject body) {
+    protected Boolean isBodyValid(JsonObject body) {
         Boolean isEmailMissing = body.getString("email").equalsIgnoreCase("");
         Boolean isPasswordMissing = body.getString("password").equalsIgnoreCase("");
         if (isEmailMissing || isPasswordMissing) {
@@ -43,4 +43,5 @@ public class Registration extends Core implements Handler {
         hct.response = new Response(200);
         return hct;
     }
+
 }
