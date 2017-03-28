@@ -35,7 +35,7 @@ public class Authenticator implements Handler {
                 hct.response = new Response(new UnauthorizedError());
             }
         } catch (UserNotFoundException e) {
-            System.out.printf("%s was not found in database.", e.email);
+            System.out.printf("\n%s was not found in database.", e.email);
             if (this.needAuth) {
                 hct.response = new Response(new BadRequestError());
             }
