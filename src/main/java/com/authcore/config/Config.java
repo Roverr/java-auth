@@ -35,23 +35,23 @@ public class Config {
         this.fileName = "./users.json";
         this.fileStoring = true;
         this.logLevel = "debug";
-        String port = System.getenv("AUTH_PORT");
+        String port = System.getProperty("AUTH_PORT");
         if (port != null) {
             this.port = Integer.parseInt(port);
         }
-        String secret = System.getenv("AUTH_SECRET");
+        String secret = System.getProperty("AUTH_SECRET");
         if (secret != null) {
             this.secret = secret;
         }
-        String fileName = System.getenv("AUTH_FILE_NAME");
+        String fileName = System.getProperty("AUTH_FILE_NAME");
         if (fileName != null) {
             this.fileName = fileName;
         }
-        String fileStore = System.getenv("AUTH_FILE_STORE");
+        String fileStore = System.getProperty("AUTH_FILE_STORE");
         if (fileStore != null) {
             this.fileStoring = Boolean.valueOf(fileStore);
         }
-        String logLevel = System.getenv("AUTH_LOG_LEVEL");
+        String logLevel = System.getProperty("AUTH_LOG_LEVEL");
         if (logLevel != null) {
             this.logLevel = logLevel;
         }
