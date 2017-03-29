@@ -12,11 +12,17 @@ import java.net.InetSocketAddress;
 
 /**
  * Created by imreleventeracz on 27/03/17.
+ * Router is an implementation of a http server router
+ * Initialize routes and creates environment for them
  */
 public class Router {
     public HttpServer server;
     private Authenticator noAuth = new Authenticator(false);
     private Authenticator auth = new Authenticator(true);
+
+    /**
+     * Constructor which creates the server
+     */
     public Router() {
         Config config = Config.getInstance();
         Middleware login = Login();
@@ -36,6 +42,10 @@ public class Router {
         }
     }
 
+    /**
+     * Login is a middleware for the login endpoint
+     * @return Middleware handler for Login
+     */
     public Middleware Login() {
         Middleware login = new Middleware();
         Login handler = new Login();
@@ -43,6 +53,10 @@ public class Router {
         return login;
     }
 
+    /**
+     * Registration is a middleware for the registration endpoint
+     * @return Middleware handler for Registration
+     */
     public Middleware Registration() {
         Middleware registration = new Middleware();
         Registration handler = new Registration();
@@ -50,6 +64,10 @@ public class Router {
         return registration;
     }
 
+    /**
+     * Me is a middleware for the me endpoint
+     * @return Middleware handler for Me
+     */
     public Middleware Me() {
         Middleware me = new Middleware();
         Me handler = new Me();
