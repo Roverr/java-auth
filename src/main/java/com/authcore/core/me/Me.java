@@ -9,13 +9,21 @@ import com.authcore.router.middleware.Handler;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import java.io.IOException;
 
 /**
  * Created by imreleventeracz on 27/03/17.
+ * Me is a class for the me endpoint handler
+ * GET /me
  */
 public class Me implements Handler {
-    public HandlerContext handler(HttpExchange t, HandlerContext hct) throws IOException {
+
+    /**
+     * Handler method for me which gives back user data
+     * @param t HttpExchange with http data
+     * @param hct HandlerContext with the authenticated user data
+     * @return HandlerContext which contains the response
+     */
+    public HandlerContext handler(HttpExchange t, HandlerContext hct) {
         Boolean GET = t.getRequestMethod().equalsIgnoreCase("GET");
         if (!GET) {
             hct.response = new Response(new NotFoundError());

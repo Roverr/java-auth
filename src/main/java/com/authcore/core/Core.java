@@ -12,16 +12,31 @@ import java.io.InputStreamReader;
 
 /**
  * Created by imreleventeracz on 27/03/17.
+ * Core is an abstract class for http handlers
  */
 abstract public class Core {
+    /**
+     * isBodyValid is a method for checking if the request body has
+     * every property needed for the handler
+     * @param body JsonObject with the body
+     * @return Returns if body is valid or not
+     */
     protected abstract Boolean isBodyValid(JsonObject body);
+
+    /**
+     * parseBody is a method for parsing the request body from a http
+     * request into JsonObject
+     * @param t HttpExchange with the byte encoded body
+     * @return Returns the parsed JsonObject
+     * @throws IOException Error can happen if the reading from
+     * he request body goes wrong
+     */
     protected JsonObject parseBody(HttpExchange t) throws IOException {
         InputStreamReader isr =  new InputStreamReader(t.getRequestBody(),"utf-8");
         BufferedReader br = new BufferedReader(isr);
         JsonReader jsonReader = null;
         try {
-             jsonReader = Json.createReader(br);
-
+            jsonReader = Json.createReader(br);
         } catch (Exception e) {
             Logger.Errorln(e);
         }

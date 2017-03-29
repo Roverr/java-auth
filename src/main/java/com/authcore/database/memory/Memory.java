@@ -14,12 +14,19 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by imreleventeracz on 27/03/17.
+ * Memory is an in-memory database implementation
  */
 public class Memory extends Database {
+    // Property to contain users
     public ConcurrentMap<String, User> users;
+    // If file storing available File is stored here
     private File JsonDB;
 
 
+    /**
+     * Constructor creates a memory db instance and tries to
+     * read users saved in json if it is possible
+     */
     public Memory() {
         Config config = Config.getInstance();
         if (config.fileStoring) {
@@ -37,6 +44,9 @@ public class Memory extends Database {
         this.users = new ConcurrentHashMap<String, User>();
     }
 
+    /**
+     * SaveUsers is for saving users if file storing is on
+     */
     private void SaveUsers() {
         JsonObjectBuilder db = Json.createObjectBuilder();
         for (Map.Entry<String, User> entry: this.users.entrySet()) {
@@ -56,7 +66,10 @@ public class Memory extends Database {
     @Override
     public Boolean InsertUser(User u) {
         this.users.putIfAbsent(u.email, u);
-        this.SaveUsers();
+        Config config = Config.getInstance();
+        if (config.fileStoring) {
+            this.SaveUsers();
+        }
         return true;
     }
 
@@ -71,6 +84,11 @@ public class Memory extends Database {
         return this.users.get(email);
     }
 
+    /**
+     * Method for getting users from the json database file
+     * @return JsonObject with the users
+     * @throws IOException File reading can throw an exception
+     */
     private JsonObject getUsersFromFile() throws IOException {
         FileReader fr = new FileReader(this.JsonDB);
         BufferedReader br = new BufferedReader(fr);
@@ -80,6 +98,10 @@ public class Memory extends Database {
         return jsonDB;
     }
 
+    /**
+     * Method for loading users from a jsonDB JsonObject into this.users
+     * @param jsonDB JsonObject read from the file database
+     */
     private void loadUsers(JsonObject jsonDB) {
         Set<String> keys = jsonDB.keySet();
         for (String key: keys) {
@@ -98,7 +120,14 @@ public class Memory extends Database {
         }
     }
 
+    /**
+     * Initialize is for initializing the file storing from a json file
+     */
     public final void Initialize() {
+        Config config = Config.getInstance();
+        if (!config.fileStoring) {
+            return;
+        }
         try {
             JsonObject jsonDB = getUsersFromFile();
             loadUsers(jsonDB);

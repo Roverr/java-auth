@@ -25,9 +25,15 @@ import java.util.List;
 
 /**
  * Created by imreleventeracz on 28/03/17.
+ * Authenticator is a middleware function for parsing JWT token
  */
 public class Authenticator implements Handler {
     private Boolean needAuth;
+
+    /**
+     * Constructor for authenticator middleware
+     * @param needed Boolean to indicate if authentication is needed or rejected if have any
+     */
     public Authenticator(Boolean needed) {
         this.needAuth = needed;
     }

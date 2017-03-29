@@ -10,11 +10,12 @@ import com.authcore.user.User;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import javax.json.*;
 
 /**
  * Created by imreleventeracz on 27/03/17.
+ * Registration is a class for the registration endpoint handler
+ * POST /registration
  */
 public class Registration extends Core implements Handler {
 
@@ -27,6 +28,14 @@ public class Registration extends Core implements Handler {
         return true;
     }
 
+    /**
+     * Registration handler which gets account data in the payload
+     * and creates user from it if it is possible
+     * @param t HttpExchange http data
+     * @param hct HandlerContext for context data
+     * @return HandlerContext with the response body filled
+     * @throws IOException Body parsing can throw an exception
+     */
     public HandlerContext handler(HttpExchange t, HandlerContext hct) throws IOException {
         Boolean POST = t.getRequestMethod().equalsIgnoreCase("POST");
         if (!POST) {

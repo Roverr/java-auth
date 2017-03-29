@@ -3,17 +3,32 @@ package com.authcore.config;
 
 /**
  * Created by imreleventeracz on 27/03/17.
+ * Config is a singleton class, includes all properties
+ * needed for the server configuration
  */
 public class Config {
-    private static com.authcore.config.Config instance = null;
+    private static Config instance = null;
     public int port;
     private String secret;
     public Boolean fileStoring;
     public String fileName;
     public String logLevel;
+
     protected Config() {
         parseEnvironment();
     }
+
+    public static Config getInstance() {
+        if (instance == null) {
+            instance = new Config();
+        }
+        return instance;
+    }
+
+    /**
+     * Parsing the environment variables in case of given configuration, otherwise
+     * sets the config properties to its' default values
+     */
     private void parseEnvironment() {
         this.port = 8000;
         this.secret = "macilaci";
@@ -41,13 +56,12 @@ public class Config {
             this.logLevel = logLevel;
         }
     }
+
+    /**
+     * getSecret is a method for getting the private property
+     * @return  Secret for hashing the JWT Token
+     */
     public String getSecret() {
         return this.secret;
-    }
-    public static com.authcore.config.Config getInstance() {
-        if(instance == null) {
-            instance = new com.authcore.config.Config();
-        }
-        return instance;
     }
 }

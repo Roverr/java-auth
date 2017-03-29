@@ -22,6 +22,7 @@ import com.authcore.user.User;
 
 /**
  * Created by imreleventeracz on 26/03/17.
+ * Login is a class for login endpoint handler
  */
 public class Login extends Core implements Handler{
 
@@ -34,6 +35,14 @@ public class Login extends Core implements Handler{
         return true;
     }
 
+    /**
+     * Handler method which gets the payload from the body and logs the user
+     * in if it can with giving back a JWT token
+     * @param t HttpExchange http data
+     * @param hct HandlerContext context for handler
+     * @return HandlerContext with response filled
+     * @throws IOException parseBody can throw an exception
+     */
     public HandlerContext handler(HttpExchange t, HandlerContext hct) throws IOException {
         Boolean POST = t.getRequestMethod().equalsIgnoreCase("POST");
         if (!POST) {

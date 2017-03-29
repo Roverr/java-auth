@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * Created by imreleventeracz on 26/03/17.
+ * Response class is a custom in-system implementation for response handling
  */
 public class Response {
     public int status = 200;
@@ -19,29 +20,20 @@ public class Response {
     public HttpError httpErr;
     public JsonObject data;
     public String jwt = "";
-    private boolean broken = false;
 
     public Response(int status) {
         this.status = status;
     }
-    public Response(int status, String jwt) {
-        this.status = status;
-        this.jwt = jwt;
-    }
+
     public Response(HttpError e) {
         this.httpErr = e;
         this.status = e.status;
     }
 
-
-    public void setBroken() {
-        this.broken = true;
-    }
-
-    public boolean isBroken() {
-        return this.broken;
-    }
-
+    /**
+     * setErrorToHttpError is a method for setting the error response based
+     * on the given httpError in the Response instance
+     */
     private void setErrorToHttpError() {
         this.data = Json.createObjectBuilder()
                 .add("error", this.httpErr.getMessage())
@@ -49,6 +41,9 @@ public class Response {
                 .build();
     }
 
+    /**
+     * setBody is for setting the response body for a http response
+     */
     public void setBody() {
         if (this.httpErr != null) {
             this.setErrorToHttpError();
@@ -67,10 +62,21 @@ public class Response {
                 .build();
     }
 
+    /**
+     * getBytes is getting the response json's byte array to
+     * write to the response stream
+     * @return Byte array
+     * @throws UnsupportedEncodingException Should not be thrown except if
+     * the running vm has no utf-8
+     */
     public byte[] getBytes() throws UnsupportedEncodingException {
        return this.data.toString().getBytes("utf-8");
     }
 
+    /**
+     * Length is for getting the length of the response json body
+     * @return Length of how many chars it has
+     */
     public int length() {
         return this.data.toString().length();
     }
