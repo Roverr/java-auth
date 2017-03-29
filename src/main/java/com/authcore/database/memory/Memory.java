@@ -2,6 +2,7 @@ package com.authcore.database.memory;
 
 import com.authcore.config.Config;
 import com.authcore.database.Database;
+import com.authcore.logger.Logger;
 import com.authcore.user.User;
 
 import javax.json.*;
@@ -48,7 +49,7 @@ public class Memory extends Database {
             file.write(jsonDB.toString());
             file.close();
         } catch (Exception e) {
-            System.err.println(e);
+            Logger.Errorln(e);
         }
     }
 
@@ -72,7 +73,9 @@ public class Memory extends Database {
 
     private JsonObject getUsersFromFile() throws IOException {
         FileReader fr = new FileReader(this.JsonDB);
-        JsonObject jsonDB = Json.createReader(fr).readObject();
+        BufferedReader br = new BufferedReader(fr);
+        JsonObject jsonDB = Json.createReader(br).readObject();
+        br.close();
         fr.close();
         return jsonDB;
     }
@@ -90,7 +93,7 @@ public class Memory extends Database {
                 User u = new User(email, name, passwordHash, salt);
                 this.users.putIfAbsent(u.email, u);
             } catch (Exception e) {
-                System.out.printf("\n%s email user has wrong structure in users.json\n", key);
+                Logger.Debugln(String.format("%s email user has wrong structure in users.json", key));
             }
         }
     }
@@ -100,7 +103,7 @@ public class Memory extends Database {
             JsonObject jsonDB = getUsersFromFile();
             loadUsers(jsonDB);
         } catch (Exception e) {
-            System.out.println(e);
+            Logger.Errorln(e);
         }
     }
 }

@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.authcore.config.Config;
 import com.authcore.context.Context;
+import com.authcore.logger.Logger;
 import com.authcore.response.Response;
 import com.authcore.response.errors.BadRequestError;
 import com.authcore.response.errors.ForbiddenError;
@@ -42,12 +43,10 @@ public class Authenticator implements Handler {
                 hct.response = new Response(new UnauthorizedError());
             }
         } catch (UserNotFoundException e) {
-            System.out.printf("\n%s was not found in database.", e.email);
-            if (this.needAuth) {
-                hct.response = new Response(new BadRequestError());
-            }
+            Logger.Debugln(String.format("%s was not found in database", e.email));
+            hct.response = new Response(new BadRequestError());
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            Logger.Errorln(e);
             hct.response = new Response(new InternalServerError());
         } finally {
             return hct;

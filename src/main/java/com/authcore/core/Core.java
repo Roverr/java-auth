@@ -1,5 +1,6 @@
 package com.authcore.core;
 
+import com.authcore.logger.Logger;
 import com.sun.net.httpserver.HttpExchange;
 
 import javax.json.Json;
@@ -22,7 +23,7 @@ abstract public class Core {
              jsonReader = Json.createReader(br);
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            Logger.Errorln(e);
         }
         JsonObject object = jsonReader.readObject();
         jsonReader.close();

@@ -3,6 +3,7 @@ package com.authcore.router.middleware;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import com.authcore.logger.Logger;
 import com.authcore.user.User;
 import com.sun.net.httpserver.*;
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class Middleware implements HttpHandler {
                     return hct.response;
                 }
             } catch (Exception e) {
-                System.err.println(e);
+                Logger.Errorln(e);
                 return new Response(new InternalServerError());
             }
         }
@@ -64,7 +65,7 @@ public class Middleware implements HttpHandler {
     public void handle(HttpExchange t) throws IOException {
         Response response = this.chain(t);
         if (response.err != null) {
-            System.err.println(response.err);
+            Logger.Errorln(response.err);
         }
         OutputStream os = t.getResponseBody();
         t.getResponseHeaders().add("Content-Type", "application/json");
@@ -77,7 +78,7 @@ public class Middleware implements HttpHandler {
         try {
             body = response.getBytes();
         } catch(Exception e) {
-            System.err.println(e.getMessage());
+            Logger.Errorln(e);
         }
         if (body != null) {
             os.write(body);

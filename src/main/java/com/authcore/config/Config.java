@@ -10,6 +10,7 @@ public class Config {
     private String secret;
     public Boolean fileStoring;
     public String fileName;
+    public String logLevel;
     protected Config() {
         parseEnvironment();
     }
@@ -18,6 +19,7 @@ public class Config {
         this.secret = "macilaci";
         this.fileName = "./users.json";
         this.fileStoring = true;
+        this.logLevel = "debug";
         String port = System.getenv("AUTH_PORT");
         if (port != null) {
             this.port = Integer.parseInt(port);
@@ -33,6 +35,10 @@ public class Config {
         String fileStore = System.getenv("AUTH_FILE_STORE");
         if (fileStore != null) {
             this.fileStoring = Boolean.valueOf(fileStore);
+        }
+        String logLevel = System.getenv("AUTH_LOG_LEVEL");
+        if (logLevel != null) {
+            this.logLevel = logLevel;
         }
     }
     public String getSecret() {

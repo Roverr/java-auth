@@ -4,6 +4,7 @@ import com.authcore.config.Config;
 import com.authcore.core.login.Login;
 import com.authcore.core.me.Me;
 import com.authcore.core.registration.Registration;
+import com.authcore.logger.Logger;
 import com.authcore.router.middleware.Middleware;
 import com.authcore.router.middleware.authenticator.Authenticator;
 import com.sun.net.httpserver.HttpServer;
@@ -29,9 +30,9 @@ public class Router {
             this.server.createContext("/me", me);
             this.server.setExecutor(null); // creates a default executor
             this.server.start();
-            System.out.printf("Server is listening on %d", 8000);
+            Logger.Println(String.format("Server is listening on %d", 8000));
         } catch (Exception e) {
-            System.err.println(e);
+            Logger.Errorln(e);
         }
     }
 

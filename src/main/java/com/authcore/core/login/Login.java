@@ -7,6 +7,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.authcore.config.Config;
 import com.authcore.context.Context;
+import com.authcore.logger.Logger;
 import com.authcore.response.errors.BadRequestError;
 import com.authcore.response.errors.InternalServerError;
 import com.authcore.response.errors.NotFoundError;
@@ -70,7 +71,7 @@ public class Login extends Core implements Handler{
                     .sign(algorithm);
             success.jwt = token;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            Logger.Errorln(e);
             hct.response = new Response(new InternalServerError());
             return hct;
         }
