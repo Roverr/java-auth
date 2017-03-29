@@ -46,7 +46,7 @@ public class Router {
      * Login is a middleware for the login endpoint
      * @return Middleware handler for Login
      */
-    public Middleware Login() {
+    private Middleware Login() {
         Middleware login = new Middleware();
         Login handler = new Login();
         login.Add(this.noAuth).Add(handler);
@@ -57,7 +57,7 @@ public class Router {
      * Registration is a middleware for the registration endpoint
      * @return Middleware handler for Registration
      */
-    public Middleware Registration() {
+    private Middleware Registration() {
         Middleware registration = new Middleware();
         Registration handler = new Registration();
         registration.Add(this.noAuth).Add(handler);
@@ -68,7 +68,7 @@ public class Router {
      * Me is a middleware for the me endpoint
      * @return Middleware handler for Me
      */
-    public Middleware Me() {
+    private Middleware Me() {
         Middleware me = new Middleware();
         Me handler = new Me();
         return me.Add(this.auth).Add(handler);
