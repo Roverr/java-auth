@@ -74,12 +74,6 @@ public class Memory extends Database {
     }
 
     @Override
-    public Boolean DeleteUser(User u) {
-        this.users.remove(u);
-        return true;
-    }
-
-    @Override
     public User GetUserByEmail(String email) {
         return this.users.get(email);
     }
