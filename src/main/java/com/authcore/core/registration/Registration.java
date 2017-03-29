@@ -48,7 +48,7 @@ public class Registration extends Core implements Handler {
             hct.response = new Response(new BadRequestError());
             return hct;
         }
-        User.Create(body.getString("email"), body.getString("name", ""), body.getString("password"));
+        User.create(body.getString("email"), body.getString("name", ""), body.getString("password"));
         hct.response = new Response(200);
         return hct;
     }

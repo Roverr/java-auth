@@ -17,18 +17,18 @@ import com.authcore.response.errors.InternalServerError;
  */
 public class Middleware implements HttpHandler {
     // handlers store the chained handlers in the middleware
-    private final ArrayList<Handler> handlers;
+    private ArrayList<Handler> handlers;
 
     public Middleware() {
         this.handlers = new ArrayList();
     }
 
     /**
-     * Add is for adding a handler function to the chain
+     * add is for adding a handler function to the chain
      * @param h Handler to add
      * @return this
      */
-    public Middleware Add(Handler h) {
+    public Middleware add(Handler h) {
         this.handlers.add(h);
         return this;
     }

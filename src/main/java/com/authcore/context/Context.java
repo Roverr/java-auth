@@ -21,7 +21,7 @@ public class Context {
     public static Context getInstance() {
         if(instance == null) {
             Database db = new Memory();
-            db.Initialize();
+            db.initialize();
             instance = new Context(db);
         }
         return instance;

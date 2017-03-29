@@ -57,7 +57,7 @@ public class Login extends Core implements Handler{
         }
         Context server = Context.getInstance();
         Config config = Config.getInstance();
-        User u = server.connection.GetUserByEmail(body.getString("email"));
+        User u = server.connection.getUserByEmail(body.getString("email"));
         if (u == null) {
             hct.response = new Response(new NotFoundError());
             return hct;

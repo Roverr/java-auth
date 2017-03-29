@@ -79,7 +79,7 @@ public class Authenticator implements Handler {
         DecodedJWT jwt = verifier.verify(token);
         String email = jwt.getClaim("email").asString();
         Context server = Context.getInstance();
-        User u = server.connection.GetUserByEmail(email);
+        User u = server.connection.getUserByEmail(email);
         if (u == null) {
             throw new UserNotFoundException(email);
         }

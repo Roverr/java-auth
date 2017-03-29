@@ -64,7 +64,7 @@ public class Memory extends Database {
     }
 
     @Override
-    public Boolean InsertUser(User u) {
+    public Boolean insertUser(User u) {
         this.users.putIfAbsent(u.email, u);
         Config config = Config.getInstance();
         if (config.fileStoring) {
@@ -74,7 +74,7 @@ public class Memory extends Database {
     }
 
     @Override
-    public User GetUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         return this.users.get(email);
     }
 
@@ -115,9 +115,9 @@ public class Memory extends Database {
     }
 
     /**
-     * Initialize is for initializing the file storing from a json file
+     * initialize is for initializing the file storing from a json file
      */
-    public final void Initialize() {
+    public void initialize() {
         Config config = Config.getInstance();
         if (!config.fileStoring) {
             return;

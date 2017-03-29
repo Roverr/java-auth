@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         // Initiate context
         Context.getInstance();
-        // Create routing
+        // create routing
         new Router();
     }
 }

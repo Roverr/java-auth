@@ -22,25 +22,24 @@ public class User {
     };
 
     public User(String email, String name, String password, String salt) {
-        this.email=email;
+        this(email, name);
         this.password=password;
         this.salt=salt;
-        this.name = name;
     }
 
     /**
-     * Create is a static method for creating a user
+     * create is a static method for creating a user
      * @param email Email of the user
      * @param name Name of the user
      * @param password Password the user would like to use
      * @return User instance
      */
-    public static User Create(String email, String name, String password) {
+    public static User create(String email, String name, String password) {
         Context server = Context.getInstance();
         String salt = BCrypt.gensalt();
         String hashedPassword = BCrypt.hashpw(password, salt);
         User u = new User(email, name, hashedPassword, salt);
-        server.connection.InsertUser(u);
+        server.connection.insertUser(u);
         return u;
     }
 

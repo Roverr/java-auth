@@ -13,7 +13,7 @@ import java.net.InetSocketAddress;
 /**
  * Created by imreleventeracz on 27/03/17.
  * Router is an implementation of a http server router
- * Initialize routes and creates environment for them
+ * initialize routes and creates environment for them
  */
 public class Router {
     public HttpServer server;
@@ -25,9 +25,9 @@ public class Router {
      */
     public Router() {
         Config config = Config.getInstance();
-        Middleware login = Login();
-        Middleware registration = Registration();
-        Middleware me = Me();
+        Middleware login = login();
+        Middleware registration = registration();
+        Middleware me = me();
         try {
             InetSocketAddress port = new InetSocketAddress(config.port);
             this.server = HttpServer.create(port, 0);
@@ -36,41 +36,41 @@ public class Router {
             this.server.createContext("/me", me);
             this.server.setExecutor(null); // creates a default executor
             this.server.start();
-            Logger.Println(String.format("Server is listening on %d", 8000));
+            Logger.Println(String.format("Server is listening on %d", config.port));
         } catch (Exception e) {
             Logger.Errorln(e);
         }
     }
 
     /**
-     * Login is a middleware for the login endpoint
-     * @return Middleware handler for Login
+     * login is a middleware for the login endpoint
+     * @return Middleware handler for login
      */
-    private Middleware Login() {
+    private Middleware login() {
         Middleware login = new Middleware();
         Login handler = new Login();
-        login.Add(this.noAuth).Add(handler);
+        login.add(this.noAuth).add(handler);
         return login;
     }
 
     /**
-     * Registration is a middleware for the registration endpoint
-     * @return Middleware handler for Registration
+     * registration is a middleware for the registration endpoint
+     * @return Middleware handler for registration
      */
-    private Middleware Registration() {
+    private Middleware registration() {
         Middleware registration = new Middleware();
         Registration handler = new Registration();
-        registration.Add(this.noAuth).Add(handler);
+        registration.add(this.noAuth).add(handler);
         return registration;
     }
 
     /**
-     * Me is a middleware for the me endpoint
-     * @return Middleware handler for Me
+     * me is a middleware for the me endpoint
+     * @return Middleware handler for me
      */
-    private Middleware Me() {
+    private Middleware me() {
         Middleware me = new Middleware();
         Me handler = new Me();
-        return me.Add(this.auth).Add(handler);
+        return me.add(this.auth).add(handler);
     }
 }
