@@ -1,5 +1,6 @@
 # java-auth
 Standard auth API created with maven as a school project
+Diagram for the project: `docs/uml.pdf`
 
 ## Configuration settings:
 * `AUTH_PORT`
