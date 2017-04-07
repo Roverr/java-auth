@@ -52,3 +52,4 @@ target/
 # Custom
 users.json
 *.iml
+.DS_STORE
