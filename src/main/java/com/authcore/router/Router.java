@@ -7,6 +7,7 @@ import com.authcore.core.registration.Registration;
 import com.authcore.logger.Logger;
 import com.authcore.router.middleware.Middleware;
 import com.authcore.router.middleware.authenticator.Authenticator;
+import com.authcore.router.middleware.logger.Logging;
 import com.sun.net.httpserver.HttpServer;
 import java.net.InetSocketAddress;
 
@@ -19,6 +20,9 @@ public class Router {
     public HttpServer server;
     private Authenticator noAuth = new Authenticator(false);
     private Authenticator auth = new Authenticator(true);
+    private String LOGIN_PATH = "/login";
+    private String REGISTRATION_PATH = "/registration";
+    private String ME_PATH = "/me";
 
     /**
      * Constructor which creates the server
@@ -31,9 +35,9 @@ public class Router {
         try {
             InetSocketAddress port = new InetSocketAddress(config.port);
             this.server = HttpServer.create(port, 0);
-            this.server.createContext("/login", login);
-            this.server.createContext("/registration", registration);
-            this.server.createContext("/me", me);
+            this.server.createContext(LOGIN_PATH, login);
+            this.server.createContext(REGISTRATION_PATH, registration);
+            this.server.createContext(ME_PATH, me);
             this.server.setExecutor(null); // creates a default executor
             this.server.start();
             Logger.Println(String.format("Server is listening on %d", config.port));
@@ -49,7 +53,9 @@ public class Router {
     private Middleware login() {
         Middleware login = new Middleware();
         Login handler = new Login();
-        login.add(this.noAuth).add(handler);
+        login.add(this.noAuth)
+                .add(handler)
+                .addAlways(new Logging(LOGIN_PATH));
         return login;
     }
 
@@ -60,7 +66,9 @@ public class Router {
     private Middleware registration() {
         Middleware registration = new Middleware();
         Registration handler = new Registration();
-        registration.add(this.noAuth).add(handler);
+        registration
+                .add(this.noAuth).add(handler)
+                .addAlways(new Logging(REGISTRATION_PATH));;
         return registration;
     }
 
@@ -71,6 +79,7 @@ public class Router {
     private Middleware me() {
         Middleware me = new Middleware();
         Me handler = new Me();
-        return me.add(this.auth).add(handler);
+        return me.add(this.auth).add(handler)
+                .addAlways(new Logging(ME_PATH));
     }
 }

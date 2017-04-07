@@ -4,6 +4,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import com.authcore.logger.Logger;
+import com.authcore.router.middleware.logger.Logging;
 import com.authcore.user.User;
 import com.sun.net.httpserver.*;
 import java.io.IOException;
@@ -18,9 +19,12 @@ import com.authcore.response.errors.InternalServerError;
 public class Middleware implements HttpHandler {
     // handlers store the chained handlers in the middleware
     private ArrayList<Handler> handlers;
+    // handlers which are going to run even if the chain is broken
+    private ArrayList<Handler> always;
 
     public Middleware() {
         this.handlers = new ArrayList();
+        this.always = new ArrayList();
     }
 
     /**
@@ -30,6 +34,18 @@ public class Middleware implements HttpHandler {
      */
     public Middleware add(Handler h) {
         this.handlers.add(h);
+        return this;
+    }
+
+    /**
+     * addAlways is for adding a handler functions which are
+     * going to run always, since they are not depended on the result
+     * of the handlers
+     * @param h Handler to add
+     * @return this
+     */
+    public Middleware addAlways(Handler h) {
+        this.always.add(h);
         return this;
     }
 
@@ -68,11 +84,21 @@ public class Middleware implements HttpHandler {
                 hct = next.handler(t, hct);
                 Boolean broken = handleChainBreak(hct.response);
                 if (broken) {
-                    return hct.response;
+                    break;
                 }
             } catch (Exception e) {
                 Logger.Errorln(e);
                 return new Response(new InternalServerError());
+            }
+        }
+        handlerIterator = this.always.iterator();
+        while (handlerIterator.hasNext()) {
+            next = handlerIterator.next();
+            try {
+                hct = next.handler(t, hct);
+            } catch (Exception e) {
+                Logger.Errorln(e);
+                return hct.response;
             }
         }
         return hct.response;
